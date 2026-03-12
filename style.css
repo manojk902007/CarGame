@@ -1,0 +1,157 @@
+body{
+    margin:0;
+    overflow:hidden;
+    font-family:Arial;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+
+    background:linear-gradient(-45deg,#ff4e50, #f9d423, #24c6dc, #514a9d);
+    background-size:400% 400%;
+    animation:gradientMove 10s ease infinite;
+
+    /* text-align:center;
+    background:#222;
+    color:white;
+    font-family:Arial; */
+}
+
+@keyframes gradientMove{
+    0%{background-position:0% 50%;}
+    50%{background-position:100% 50%;}
+    100%{background-position:0% 50%;}
+}
+
+.gameArea{
+    width:350px;
+    height:600px;
+    background:#222;
+    position:relative;
+    overflow:hidden;
+    border-radius:15px;
+    box-shadow:0 0 40px rgba(0,0,0,0.7);
+
+    /* width:300px;
+    height:500px;
+    background:#333;
+    margin:auto;
+    position:relative;
+    overflow:hidden;
+    border:4px solid white; */
+}
+
+.car{
+    width:50px;
+    height:100px;
+    background-image:url("car.png");
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+    position:absolute;
+    bottom:20px;
+    left:125px;
+    border-radius:10px;
+    z-index:2;
+}
+
+.enemy{
+    width:50px;
+    height:100px;
+    background-image:url("enemy.png");
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+    position:absolute;
+    top:0;
+    border-radius:10px;
+    z-index:1;
+}
+
+.score{
+    margin-top:30px;
+    font-size:20px;
+}
+
+.roadLine{
+    width:10px;
+    height:100px;
+    background:white;
+    position:absolute;
+    left:170px;
+    opacity:0.8;
+}
+
+.gameOver{
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%, -50%) scale(0.7);
+    background:black;
+    color:white;
+    padding:25px;
+    border:3px solid white;
+    text-align:center;
+    display:none;
+    z-index:5;
+    animation:popup 0.4s ease forwards;
+
+    /* position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%, -50%);
+    background:black;
+    color:white;
+    padding:20px;
+    border:3px solid white;
+    text-align:center;
+    display:none;
+    z-index:5; */
+}
+
+@keyframes popup{
+    from{
+        transform:translate(-50%, -50%) scale(0.5);
+        opacity:0;
+    }
+    to{
+        transform:translate(-50%, -50%) scale(1);
+        opacity:1;
+    }
+}
+
+.gameOver button{
+    padding:8px 15px;
+    margin-top:10px;
+    cursor:pointer;
+}
+
+h1{
+    position:absolute;
+    top:20px;
+    width:100%;
+    text-align:center;
+    color:white;
+}
+
+.score{
+    position:absolute;
+    top:60px;
+    width:100%;
+    text-align:center;
+    color:white;
+    font-size:22px;
+}
+
+.gameArea::before,
+.gameArea::after{
+    content:"";
+    position:absolute;
+    top:0;
+    width:6px;
+    height:100%;
+    background:white;
+}
+
+.gameArea::before{ left:0; }
+.gameArea::after{ right:0; }
