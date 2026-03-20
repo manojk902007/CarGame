@@ -2,11 +2,29 @@ const gameArea = document.querySelector('.gameArea');
 const score = document.querySelector('.score');
 const engineSound = new Audio("engine.mp3");
 engineSound.loop = true;
-
 const crashSound = new Audio("crash.mp3");
+const speedSlider = document.getElementById("speedSlider");
+const speedValue = document.getElementById("speedValue");
 
-let player = {speed:5, score:0};
+let savedspeed = localStorage.getItem("carGameSpeed");
+let player = {
+    speed: savedspeed ? parseInt(savedspeed) : 5, score: 0,
+    score: 0
+}
+
+if(savedspeed) {
+    speedSlider.value = player.speed;
+    speedValue.innerText = player.speed;
+} 
+
 let keys = {ArrowUp:false, ArrowDown:false, ArrowLeft:false, ArrowRight:false};
+
+speedSlider.addEventListener("input", function(){
+    player.speed = parseInt(this.value);
+    speedValue.innerText = player.speed;
+
+    localStorage.setItem("carGameSpeed", player.speed);
+});
 
 document.addEventListener('keydown', keyDown);
 document.addEventListener('keyup', keyUp);
@@ -22,6 +40,20 @@ function keyDown(e){
     if(!engineStarted){
         engineSound.play();
         engineStarted=true;
+    }
+
+    if(e.key === "+"){
+        player.speed = Math.min(player.speed + 1, 15);
+        localStorage.setItem("carGameSpeed", player.speed);
+        speedSlider.value = player.speed;
+        speedValue.innerText = player.speed;
+    }
+
+    if(e.key === "-"){
+        player.speed = Math.max(player.speed - 1, 1);
+        localStorage.setItem("carGameSpeed", player.speed);
+        speedSlider.value = player.speed;
+        speedValue.innerText = player.speed;
     }
 }
 
@@ -50,8 +82,11 @@ function startGame(){
         gameArea.appendChild(enemy);
     }
 
-    player.x = car.offsetLeft;
-    player.y = car.offsetTop;
+    player.x = 125; // center lane
+    player.y = gameArea.offsetHeight - 120; // bottom position
+    
+    car.style.left = player.x + "px";
+    car.style.top = player.y + "px";
 
     for(let i=0;i<5;i++){
         let roadLine = document.createElement("div");
@@ -154,9 +189,9 @@ function playGame(){
         player.y -= player.speed;
     }
 
-    if(keys.ArrowDown && player.y < 400){
-        player.y += player.speed;
-    }
+    if(keys.ArrowDown && player.y < (gameArea.offsetHeight - car.offsetHeight)){
+    player.y += player.speed;
+}
 
     car.style.left = player.x + "px";
     car.style.top = player.y + "px";
@@ -164,11 +199,22 @@ function playGame(){
     player.score++;
     score.innerText = "Score: " + player.score;
 
+    if(player.score % 500 === 0){
+        player.speed = Math.min(player.speed + 1, 15);
+        localStorage.setItem("carGameSpeed", player.speed);
+    }
+
     window.requestAnimationFrame(playGame);
 }
 
 function restartGame(){
-    location.reload();
+    gameArea.innerHTML = "";
+    document.querySelector(".gameOver").style.display="none";
+    player.score = 0;
+    score.innerText = "Score: 0";
+    gameOver = false;
+    engineStarted = false;
+    startGame();
 }
 
 startGame();

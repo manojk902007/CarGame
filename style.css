@@ -49,7 +49,6 @@ body{
     background-position:center;
     background-repeat:no-repeat;
     position:absolute;
-    bottom:20px;
     left:125px;
     border-radius:10px;
     z-index:2;
@@ -155,3 +154,15 @@ h1{
 
 .gameArea::before{ left:0; }
 .gameArea::after{ right:0; }
+
+.speedControl{
+    position:absolute;
+    top:800px;
+    width:100%;
+    text-align:center;
+    color:white;
+}
+
+.speedControl input{
+    width: 150px;
+}
